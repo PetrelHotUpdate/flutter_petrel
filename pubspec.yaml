@@ -1,11 +1,10 @@
 name: flutter_petrel
 description: "用于Flutter的热更新"
 version: 0.0.1
-# homepage:
 
 environment:
   sdk: ^3.5.4
-  flutter: ">=1.17.0"
+  flutter: ">=3.24.5"
 
 dependencies:
   appwrite: ^15.0.0
@@ -17,8 +16,7 @@ dependencies:
   get: ^4.7.2
   path: ^1.9.0
   path_provider: ^2.1.5
-  petrel:
-    path: ../petrel
+  petrel: ^0.0.1
 
 dev_dependencies:
   flutter_test:

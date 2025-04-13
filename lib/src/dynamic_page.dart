@@ -1,8 +1,11 @@
 import 'package:darty_json_safe/darty_json_safe.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_petrel/src/in_app_web_view_engine.dart';
 import 'package:get/get.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:petrel/petrel.dart';
+// ignore: implementation_imports
+import 'package:petrel/src/io/native_message_engine.dart';
 
 class DynamicPage extends GetView<DynamicPageController> {
   const DynamicPage({super.key});
@@ -17,19 +20,13 @@ class DynamicPage extends GetView<DynamicPageController> {
         return InAppWebView(
           initialUrlRequest: URLRequest(url: WebUri(url)),
           onWebViewCreated: (webViewController) {
-            nativeChannelEngine.addListenNativeCallWeb(
-              controller.routeName,
-              (data) {
-                final source = getNativeCallWebRunJavaScript(data);
-                webViewController.evaluateJavascript(source: source);
-              },
-            );
-            nativeChannelEngine.addListenWebCallNativeCallBack(
-              controller.routeName,
-              (data) {
-                final source = getWebCallNativeHandlerRunJavaScript(data);
-                webViewController.evaluateJavascript(source: source);
-              },
+            final webViewEngine =
+                InAppWebViewEngine(controller: webViewController);
+            nativeChannelEngine.initEngine(
+              engineName: controller.routeName,
+              messageEngine: NativeMessageEngine(
+                webViewEngine: webViewEngine,
+              ),
             );
             webViewController.addJavaScriptHandler(
               handlerName: webCallNativeName,
@@ -81,8 +78,6 @@ class DynamicPageController extends GetxController {
   @override
   void onClose() {
     _localhostServer.close();
-    nativeChannelEngine.removeListenNativeCallWeb(routeName);
-    nativeChannelEngine.removeListenWebCallNativeCallBack(routeName);
     super.onClose();
   }
 }
