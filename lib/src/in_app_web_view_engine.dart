@@ -8,6 +8,7 @@ class InAppWebViewEngine extends WebViewEngine {
 
   @override
   void runJavaScript(String script) {
+    logger.d('runJavaScript: $script');
     controller.evaluateJavascript(source: script);
   }
 }
