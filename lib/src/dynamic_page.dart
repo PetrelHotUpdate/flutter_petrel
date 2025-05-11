@@ -1,4 +1,3 @@
-
 import 'package:darty_json_safe/darty_json_safe.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_petrel/src/web_view_engine.dart';
@@ -102,8 +101,7 @@ class DynamicPageController extends GetxController {
       });
 
     nativeChannelEngine.initEngineWithMessageEngine(
-      messageEngine:
-          MessageEngine(AppWebViewEngine(controller: webViewController)),
+      MessageEngine(AppWebViewEngine(controller: webViewController)),
     );
 
     _localhostServer.start().then((value) {
